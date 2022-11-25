@@ -4,10 +4,10 @@ import java.sql.*;
 
 public class clsConexion {
 
-  private static final String JDBC_URL = "jdbc:mysql://localhost/bdexamenfinal?useSSL=false&serverTimezone=UTC";  
+  private static final String JDBC_URL = "jdbc:mysql://localhost/examenfinalbd?useSSL=false&serverTimezone=UTC";  
 
     private static final String JDBC_USER = "root";
-    private static final String JDBC_PASS = "123456789";
+    private static final String JDBC_PASS = "admin123";
 
    
     public static Connection getConnection() throws SQLException {
