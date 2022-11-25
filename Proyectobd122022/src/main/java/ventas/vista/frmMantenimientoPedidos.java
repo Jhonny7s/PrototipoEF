@@ -1,0 +1,578 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ventas.vista;
+
+
+import ventas.modelo.daoVendedores;
+import ventas.modelo.daoVentas;
+import ventas.modelo.daoCliente;
+import ventas.modelo.daoPedidos;
+import ventas.controlador.clsVentas;
+import ventas.controlador.clsCliente;
+import ventas.controlador.clsVendedores;
+import ventas.controlador.clsPedidos;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import java.io.File;
+import logistica.controlador.clsBodega;
+import logistica.controlador.clsProductos;
+import logistica.modelo.daoBodega;
+import logistica.modelo.daoProductos;
+
+
+
+
+
+/**
+ *
+ * @author visitante
+ */
+public class frmMantenimientoPedidos extends javax.swing.JInternalFrame {
+
+    public void ComboCliente() {
+        daoCliente PedidosDAO = new daoCliente();
+        List<clsCliente> pedidos = PedidosDAO.select();
+        cbox_clicodigo.addItem("Seleccione un cliente");
+        //cbox_clicodigo.removeAllItems();
+        for (int i = 0; i < pedidos.size(); i++) {
+            cbox_clicodigo.addItem(String.valueOf(pedidos.get(i).getClicodigo()));
+        }
+    }
+    
+   /*     public void ComboEstatus() {
+        daoVentas VentasDAO = new daoVentas();
+        List<clsVentas> ventas = VentasDAO.select();
+        cbox_veeestatus.addItem("Seleccione un Estado");
+    }
+    
+        public void estados() {    
+        cbox_veeestatus.addItem("1");
+        cbox_veeestatus.addItem("0");
+    }*/
+        
+        public void ComboProducto() {
+        daoProductos PedidosDAO = new daoProductos();
+        List<clsProductos> pedidos = PedidosDAO.select();
+        cbox_prodcodigo.addItem("Seleccione un Producto");
+        //cbox_clicodigo.removeAllItems();
+        for (int i = 0; i < pedidos.size(); i++) {
+            cbox_prodcodigo.addItem(String.valueOf(pedidos.get(i).getProdcodigo()));
+        }
+    }
+         
+      
+    public void llenadoDeTablas() {
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("ID Pedidos");//ENCABEZADO
+        modelo.addColumn("ID cliente");
+        modelo.addColumn("Fecha");
+        modelo.addColumn("ID Producto"); //DETALLE
+        modelo.addColumn("Cantidad");
+        modelo.addColumn("Total");
+
+        daoPedidos PedidosDAO = new daoPedidos();
+        List<clsPedidos> pedidos = PedidosDAO.select();
+        daoPedidos PedidosDAO2 = new daoPedidos();
+        List<clsPedidos> pedidos2 = PedidosDAO2.select2();
+        tablaVendedores.setModel(modelo);
+        String[] dato = new String[6];
+        for (int i = 0; i < pedidos.size(); i++) {
+            dato[0] = pedidos.get(i).getPve_documento(); //ENCABEZADO
+            dato[1] = Integer.toString(pedidos.get(i).getClicodigo());
+            dato[2] = pedidos.get(i).getPve_fecha();
+            dato[3] = Integer.toString(pedidos2.get(i).getProdcodigo());//DETALLE
+            dato[4] = Integer.toString(pedidos2.get(i).getPve_cantidad_producto());
+            dato[5] = Integer.toString(pedidos2.get(i).getPve_total_producto());
+
+            //System.out.println("vendedor:" + vendedores);
+            modelo.addRow(dato);
+        }
+    }
+
+    public void buscarPedido() {
+        clsPedidos PedidosAConsultar = new clsPedidos();
+        clsPedidos PedidosAConsultar2 = new clsPedidos();
+        daoPedidos PedidosDAO = new daoPedidos();   
+        daoPedidos PedidosDAO2 = new daoPedidos();
+        
+        //***************************ENCABEZADO*********************************
+        
+        PedidosAConsultar.setPve_documento(txtbuscado.getText());
+        PedidosAConsultar = PedidosDAO.query(PedidosAConsultar); 
+        txtpve_documento.setText(PedidosAConsultar.getPve_documento());
+        cbox_clicodigo.setSelectedItem(Integer.toString(PedidosAConsultar.getClicodigo()));
+        txtpve_fecha.setText(PedidosAConsultar.getPve_fecha());
+
+        //***************************DETALLE***********************************
+        
+        PedidosAConsultar2.setPve_documento(txtbuscado.getText());
+        PedidosAConsultar2 = PedidosDAO2.query2(PedidosAConsultar2);
+        txtpve_documento.setText(PedidosAConsultar2.getPve_documento());
+        cbox_prodcodigo.setSelectedItem(Integer.toString(PedidosAConsultar2.getProdcodigo()));
+        txtpve_cantidad_producto.setText(Integer.toString(PedidosAConsultar2.getPve_cantidad_producto()));
+        txtpve_total_producto.setText(Integer.toString(PedidosAConsultar2.getPve_total_producto()));
+
+        txtpve_documento.setEnabled(false);
+        
+    }
+
+    public frmMantenimientoPedidos() {
+        initComponents();
+        llenadoDeTablas();
+        ComboCliente();
+        ComboProducto();
+        
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        lb2 = new javax.swing.JLabel();
+        lbusu = new javax.swing.JLabel();
+        btnEliminar = new javax.swing.JButton();
+        btnRegistrar = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
+        label1 = new javax.swing.JLabel();
+        btnModificar = new javax.swing.JButton();
+        label3 = new javax.swing.JLabel();
+        txtbuscado = new javax.swing.JTextField();
+        btnLimpiar = new javax.swing.JButton();
+        txtpve_fecha = new javax.swing.JTextField();
+        label5 = new javax.swing.JLabel();
+        lb = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        txtpve_total_producto = new javax.swing.JTextField();
+        label7 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaVendedores = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        label11 = new javax.swing.JLabel();
+        label12 = new javax.swing.JLabel();
+        txtpve_cantidad_producto = new javax.swing.JTextField();
+        cbox_clicodigo = new javax.swing.JComboBox<>();
+        cbox_prodcodigo = new javax.swing.JComboBox<>();
+        label8 = new javax.swing.JLabel();
+        txtpve_documento = new javax.swing.JTextField();
+
+        lb2.setForeground(new java.awt.Color(204, 204, 204));
+        lb2.setText(".");
+
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setResizable(true);
+        setTitle("Procesamiento Pedidos");
+        setVisible(true);
+
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
+        btnRegistrar.setText("Registrar");
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
+
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+
+        label1.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        label1.setText("Tabla Pedidos");
+
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
+
+        label3.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        label3.setText("Cliente codigo");
+
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+
+        txtpve_fecha.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtpve_fecha.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        txtpve_fecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtpve_fechaActionPerformed(evt);
+            }
+        });
+
+        label5.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        label5.setText("Fecha");
+
+        lb.setForeground(new java.awt.Color(204, 204, 204));
+        lb.setText(".");
+
+        jButton2.setText("Ayuda");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        txtpve_total_producto.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtpve_total_producto.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+
+        label7.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        label7.setText("Total Producto");
+
+        tablaVendedores.setBackground(new java.awt.Color(153, 255, 153));
+        tablaVendedores.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        tablaVendedores.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID Vendedor", "ID Empleado", "Correo", "Telefono", "Direccion", "Porcentaje", "Comision"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tablaVendedores);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 3, 12)); // NOI18N
+        jLabel1.setText("1 = Habilitado y 0 = Inhabilitado");
+
+        label11.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        label11.setText("Codigo Producto");
+
+        label12.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        label12.setText("Cant. Producto");
+
+        txtpve_cantidad_producto.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtpve_cantidad_producto.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+        txtpve_cantidad_producto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtpve_cantidad_productoActionPerformed(evt);
+            }
+        });
+
+        cbox_clicodigo.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        cbox_clicodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbox_clicodigoActionPerformed(evt);
+            }
+        });
+
+        cbox_prodcodigo.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        cbox_prodcodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbox_prodcodigoActionPerformed(evt);
+            }
+        });
+
+        label8.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        label8.setText("ID Pedido");
+
+        txtpve_documento.setFont(new java.awt.Font("Century Gothic", 0, 12)); // NOI18N
+        txtpve_documento.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(204, 204, 204)));
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(717, 717, 717)
+                .addComponent(label1))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(label8)
+                                            .addComponent(label3)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(label5)))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtpve_documento)
+                                    .addComponent(cbox_clicodigo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtpve_fecha)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(label12)
+                                        .addComponent(label11))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(14, 14, 14)
+                                        .addComponent(label7, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtpve_total_producto)
+                                    .addComponent(cbox_prodcodigo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtpve_cantidad_producto))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lb, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnModificar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtbuscado, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(btnRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 880, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(label1)
+                .addGap(4, 4, 4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lb)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(label8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtpve_documento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(label3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbox_clicodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(label5)
+                            .addComponent(txtpve_fecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(label11, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbox_prodcodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(label12)
+                            .addComponent(txtpve_cantidad_producto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(label7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtpve_total_producto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnEliminar)
+                            .addComponent(btnRegistrar)
+                            .addComponent(btnLimpiar))
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnModificar)
+                            .addComponent(txtbuscado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnBuscar))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2))))
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        //****************DETALLE****************
+        
+        daoPedidos PedidosDAO2 = new daoPedidos();
+        clsPedidos PedidosAEliminar2 = new clsPedidos();
+        PedidosAEliminar2.setPve_documento(txtbuscado.getText());
+        PedidosDAO2.delete2(PedidosAEliminar2);
+        
+        //****************ENCABEZADO****************
+        
+        daoPedidos PedidosDAO = new daoPedidos();
+        clsPedidos PedidosAEliminar = new clsPedidos();
+        PedidosAEliminar.setPve_documento(txtbuscado.getText());
+        PedidosDAO.delete(PedidosAEliminar);        
+        llenadoDeTablas();
+        
+        //FUNCION PARA HABILITAR TEXTO DE ID DOCUMENTO
+        txtpve_documento.setEnabled(true);
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        daoPedidos PedidosDAO = new daoPedidos();
+        daoPedidos PedidosDAO2 = new daoPedidos();
+        clsPedidos PedidosAInsertar = new clsPedidos();
+        clsPedidos PedidosAInsertar2 = new clsPedidos();
+        
+        //******************ENCABEZADO**********************
+        
+        PedidosAInsertar.setPve_documento(txtpve_documento.getText());
+        PedidosAInsertar.setClicodigo(Integer.parseInt(cbox_clicodigo.getSelectedItem().toString()));
+        PedidosAInsertar.setPve_fecha(txtpve_fecha.getText());
+
+        //******************DETALLE**************************
+        
+        PedidosAInsertar2.setPve_documento(txtpve_documento.getText());
+        PedidosAInsertar2.setProdcodigo(Integer.parseInt(cbox_prodcodigo.getSelectedItem().toString()));
+        PedidosAInsertar2.setPve_cantidad_producto(Integer.parseInt(txtpve_cantidad_producto.getText()));
+        PedidosAInsertar2.setPve_total_producto(Integer.parseInt(txtpve_total_producto.getText()));
+
+        PedidosDAO.insert(PedidosAInsertar);
+        PedidosDAO2.insert2(PedidosAInsertar2);
+        
+        //FUNCION PARA HABILITAR TEXTO DE ID DOCUMENTO
+        
+        txtpve_documento.setEnabled(true);
+        llenadoDeTablas();
+    }//GEN-LAST:event_btnRegistrarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+        buscarPedido();
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        // TODO add your handling code here:
+        daoPedidos PedidosDAO2 = new daoPedidos();
+        clsPedidos PedidosAActualizar2 = new clsPedidos();
+        daoPedidos PedidosDAO = new daoPedidos();
+        clsPedidos PedidosAActualizar = new clsPedidos();
+        
+        //******************DETALLE**************************
+        
+        PedidosAActualizar2.setPve_documento(txtbuscado.getText());
+        PedidosAActualizar2.setProdcodigo(Integer.parseInt(cbox_prodcodigo.getSelectedItem().toString()));
+        PedidosAActualizar2.setPve_cantidad_producto(Integer.parseInt(txtpve_cantidad_producto.getText()));
+        PedidosAActualizar2.setPve_total_producto(Integer.parseInt(txtpve_total_producto.getText()));
+
+        PedidosDAO2.update2(PedidosAActualizar2);
+        
+        //******************ENCABEZADO**********************
+        
+        PedidosAActualizar.setPve_documento(txtbuscado.getText());
+        PedidosAActualizar.setClicodigo(Integer.parseInt(cbox_clicodigo.getSelectedItem().toString()));
+        PedidosAActualizar.setPve_fecha(txtpve_fecha.getText());
+    
+        PedidosDAO.update(PedidosAActualizar);
+        //FUNCION PARA HABILITAR TEXTO DE ID DOCUMENTO
+        llenadoDeTablas();     
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        txtpve_documento.setText("");
+        cbox_clicodigo.setSelectedIndex(0);
+        txtpve_fecha.setText("");  
+        cbox_prodcodigo.setSelectedIndex(0);
+        txtpve_cantidad_producto.setText("");
+        txtpve_total_producto.setText("");
+        txtbuscado.setText("");
+        btnRegistrar.setEnabled(true);
+        btnModificar.setEnabled(true);
+        btnEliminar.setEnabled(true);
+        
+        //FUNCION PARA HABILITAR TEXTO DE ID DOCUMENTO
+        txtpve_documento.setEnabled(true);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        try {
+            if ((new File("src\\main\\java\\ayudas\\ProcesoMayor.chm")).exists()) {
+                Process p = Runtime
+                        .getRuntime()
+                        .exec("rundll32 url.dll,FileProtocolHandler src\\main\\java\\ayudas\\ProcesoMayor.chm");
+                p.waitFor();
+            } else {
+                System.out.println("La ayuda no Fue encontrada");
+            }
+            System.out.println("Correcto");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void txtpve_cantidad_productoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpve_cantidad_productoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtpve_cantidad_productoActionPerformed
+
+    private void cbox_clicodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbox_clicodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbox_clicodigoActionPerformed
+
+    private void cbox_prodcodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbox_prodcodigoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbox_prodcodigoActionPerformed
+
+    private void txtpve_fechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtpve_fechaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtpve_fechaActionPerformed
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnRegistrar;
+    private javax.swing.JComboBox<String> cbox_clicodigo;
+    private javax.swing.JComboBox<String> cbox_prodcodigo;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel label1;
+    private javax.swing.JLabel label11;
+    private javax.swing.JLabel label12;
+    private javax.swing.JLabel label3;
+    private javax.swing.JLabel label5;
+    private javax.swing.JLabel label7;
+    private javax.swing.JLabel label8;
+    private javax.swing.JLabel lb;
+    private javax.swing.JLabel lb2;
+    private javax.swing.JLabel lbusu;
+    private javax.swing.JTable tablaVendedores;
+    private javax.swing.JTextField txtbuscado;
+    private javax.swing.JTextField txtpve_cantidad_producto;
+    private javax.swing.JTextField txtpve_documento;
+    private javax.swing.JTextField txtpve_fecha;
+    private javax.swing.JTextField txtpve_total_producto;
+    // End of variables declaration//GEN-END:variables
+}
