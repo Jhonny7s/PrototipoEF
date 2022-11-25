@@ -46,8 +46,6 @@ public class mdiGeneral extends javax.swing.JFrame {
         mCierreSesion = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
-        jM_MantenimientopApps = new javax.swing.JMenu();
-        jMenu6 = new javax.swing.JMenu();
         jMenu8 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem10 = new javax.swing.JMenuItem();
@@ -97,12 +95,6 @@ public class mdiGeneral extends javax.swing.JFrame {
         jMenu4.add(jMenuItem3);
 
         jMenuBar1.add(jMenu4);
-
-        jM_MantenimientopApps.setText("Procesos");
-        jMenuBar1.add(jM_MantenimientopApps);
-
-        jMenu6.setText("Reportes");
-        jMenuBar1.add(jMenu6);
 
         jMenu8.setText("Ayudas");
         jMenuBar1.add(jMenu8);
@@ -225,12 +217,10 @@ public class mdiGeneral extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane jDesktopPane1;
-    public javax.swing.JMenu jM_MantenimientopApps;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     public javax.swing.JMenu jMenu4;
-    public javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
     private javax.swing.JMenuBar jMenuBar1;
